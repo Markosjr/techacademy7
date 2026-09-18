@@ -87,3 +87,26 @@ Definir a persona/cliente, os requisitos e as regras de negócio em uma etapa fu
 ### Próxima etapa prevista
 
 Definir persona/cliente, cenários, requisitos e regras de negócio antes de desenvolver funcionalidades de domínio.
+
+---
+
+## Versão 0.4 - Definição da persona e requisitos
+
+### Objetivo
+
+Formalizar o perfil de quem registra solicitações, o papel administrativo e o escopo do MVP antes de implementar fluxos de negócio.
+
+### Documentos e decisões
+
+- `docs/persona.md` apresenta uma persona acadêmica fictícia, sua jornada e as necessidades do responsável pelo gerenciamento. Não foram realizadas entrevistas nem validação com cliente real.
+- `docs/requisitos.md` registra requisitos funcionais e não funcionais planejados, critérios de aceite, estados previstos e rastreabilidade com a persona.
+- O CRUD acadêmico principal será o de solicitação de manutenção. O cancelamento controlado foi proposto como ação equivalente à remoção pelo usuário para preservar o histórico; a decisão depende das regras de negócio e da validação acadêmica posterior.
+- Chat, notificações push, geolocalização e demais ideias listadas como fora de escopo não integram o MVP.
+
+### Relação com a rubrica
+
+Esta etapa produz evidências documentais de contextualização e evolução, requisitos funcionais e não funcionais e conexão da solução com a persona. Não implementa funcionalidades nem diagramas.
+
+### Próxima etapa prevista
+
+Detalhar regras de negócio e modelagem de dados, incluindo estados, permissões e DER.

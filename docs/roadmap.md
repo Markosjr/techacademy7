@@ -9,13 +9,14 @@ Este plano organiza entregas possíveis, sem autorizar sua implementação antec
 - Pasta `api/` reservada, sem implementação.
 - Rubrica, roadmap e orientações de trabalho documentados.
 - Fundação mobile concluída: Expo Router preservado em `src/app/`, componentes base em `src/components/`, tokens em `src/theme/` e tela inicial temporária. Ainda não há funcionalidades de domínio.
+- Persona acadêmica e requisitos do MVP documentados em `docs/persona.md` e `docs/requisitos.md`. Não houve validação com cliente real nem implementação dos fluxos.
 
-## Próximas etapas previstas
+## Etapas do produto
 
 | Etapa | Entrega pretendida | Critério para considerá-la concluída |
 | --- | --- | --- |
-| 1. Produto e requisitos | Definir persona/cliente, cenários de uso, requisitos funcionais e não funcionais e regras de negócio. | Requisitos verificáveis e ligados ao problema descrito. |
-| 2. Modelagem | Definir entidades, relacionamentos, perfis, estados e DER; revisar escopo do CRUD. | DER e regras consistentes com os requisitos aprovados. |
+| 1. Produto e requisitos — documentação concluída | Persona representativa, jornada, escopo do MVP e requisitos funcionais e não funcionais em `docs/persona.md` e `docs/requisitos.md`. | Documento rastreável ao problema; validação com cliente real ainda não realizada. |
+| 2. Modelagem e regras — prevista | Definir regras detalhadas de prioridade, edição, cancelamento e transição de estados; entidades, relacionamentos, perfis e DER; revisar o escopo do CRUD. | DER e regras consistentes com os requisitos documentados. |
 | 3. Fundação da API | Configurar Node.js, Express, TypeScript, Prisma e SQLite; organizar rotas, serviços, validação e erros. | API iniciável e persistência verificável. |
 | 4. Autenticação e autorização | Cadastro e login, JWT e perfis ADMIN/comum. | Rotas protegidas e permissões verificadas no servidor. |
 | 5. Solicitações ponta a ponta | CRUD de solicitações na API e no app, usando Axios. | Criar, listar/consultar, editar e excluir a partir do app com dados persistidos. |

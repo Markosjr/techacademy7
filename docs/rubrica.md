@@ -5,8 +5,9 @@ Este documento separa o que foi encontrado no repositório do que está previsto
 ## Evidências atuais
 
 - `README.md` define o objetivo, a estrutura inicial e tecnologias previstas.
-- `docs/problema.md` descreve problema, público-alvo, proposta e objetivos. A persona/cliente específico ainda precisa ser definido e validado.
-- `docs/evolucao.md` registra a concepção do produto.
+- `docs/problema.md` descreve problema, público-alvo, proposta e objetivos. `docs/persona.md` define uma persona acadêmica representativa, sem alegar entrevista ou validação com cliente real.
+- `docs/requisitos.md` registra requisitos planejados, critérios de aceite, escopo do MVP e rastreabilidade com a persona.
+- `docs/evolucao.md` registra as versões documentadas do produto até a definição da persona e dos requisitos.
 - `mobile/` contém um projeto Expo com React Native, TypeScript e Expo Router. `src/app/` contém a rota inicial e o layout; `src/components/` contém AppButton, AppInput e ScreenContainer; `src/theme/` contém tokens de cor, espaçamento e tipografia. A tela inicial é uma demonstração local temporária, sem fluxo de negócio.
 - `api/` contém somente `.gitkeep`. Não há API, modelo Prisma ou banco implementados no repositório.
 
@@ -19,16 +20,16 @@ Este documento separa o que foi encontrado no repositório do que está previsto
 | CRUD completo app → API → banco | Planejado | Criar, consultar, atualizar e excluir solicitações com persistência SQLite via Prisma e integração mobile via Axios. |
 | Regras de negócio | Planejado | Definir regras de solicitação, status, prioridade e permissões antes da implementação; validar na API. |
 | Usabilidade, compatibilidade e segurança | Planejado | Fluxos claros, estados de carregamento e erro, validação, testes nos ambientes escolhidos e proteção das rotas e dados. |
-| Contextualização e evolução do produto | Parcial | Problema e objetivos em `docs/problema.md`; versões 0.1 a 0.3 em `docs/evolucao.md`; aprofundar vínculo com persona/cliente. |
+| Contextualização e evolução do produto | Parcial: documentação ampliada | Problema em `docs/problema.md`, persona representativa em `docs/persona.md` e versões 0.1 a 0.4 em `docs/evolucao.md`; validação com cliente real ainda não realizada. |
 | DER | Planejado | Elaborar diagrama consistente com o modelo de dados efetivamente definido. |
-| Requisitos funcionais e não funcionais | Planejado | Documentar requisitos identificados, identificadores, prioridades e critérios verificáveis. |
+| Requisitos funcionais e não funcionais | Documentados; implementação planejada | `docs/requisitos.md` contém RF001–RF015 e RNF001–RNF012, escopo e critérios verificáveis. |
 | Dois diagramas de casos de uso | Planejado | Produzir dois diagramas coerentes com atores e requisitos aprovados. |
 | Dois diagramas de atividades | Planejado | Produzir dois diagramas para fluxos principais aprovados. |
 | Dois diagramas de sequência | Planejado | Produzir dois diagramas refletindo app, API e persistência reais. |
 | Upload de imagens com Multer | Planejado | Implementar envio do app, recepção pela API e associação à solicitação. |
 | Validação de extensão, tamanho e colisão de nomes | Planejado | Definir limites e formatos aceitos; aplicar validação no servidor e estratégia de nome único; cobrir rejeições. |
 | Usuário ADMIN e usuário comum | Planejado | Definir permissões por perfil, autenticação JWT e aplicar autorização no servidor. |
-| Conexão com persona/cliente | Parcial | Público-alvo genérico descrito; explicitar persona/cliente e mostrar como necessidades orientam requisitos e telas. |
+| Conexão com persona/cliente | Documentada com persona fictícia | `docs/persona.md` relaciona dores a respostas planejadas; `docs/requisitos.md` mapeia requisitos a necessidades. Falta validação com cliente real. |
 
 ## Tecnologias alvo
 
