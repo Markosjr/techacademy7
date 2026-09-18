@@ -1,98 +1,64 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { AppButton } from '@/components/AppButton';
+import { AppInput } from '@/components/AppInput';
+import { ScreenContainer } from '@/components/ScreenContainer';
+import { colors, spacing, typography } from '@/theme';
 
 export default function HomeScreen() {
+  const [exampleText, setExampleText] = useState('');
+
   return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+    <ScreenContainer>
+      <View style={styles.content}>
+        <View style={styles.introduction}>
+          <Text style={styles.title}>FixFlow</Text>
+          <Text style={styles.description}>Gestão de solicitações de manutenção</Text>
+          <Text style={styles.status}>Aplicação em desenvolvimento</Text>
+        </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
+        <View style={styles.preview}>
+          <AppInput
+            label="Campo de demonstração"
+            placeholder="Digite para experimentar"
+            value={exampleText}
+            onChangeText={setExampleText}
           />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
+          <AppButton
+            title="Limpar campo"
+            onPress={() => setExampleText('')}
+            disabled={!exampleText}
           />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+        </View>
+      </View>
+    </ScreenContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  content: {
     flex: 1,
     justifyContent: 'center',
-    flexDirection: 'row',
+    gap: spacing.xl,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+  introduction: {
+    gap: spacing.sm,
   },
   title: {
-    textAlign: 'center',
+    color: colors.primary,
+    fontSize: typography.title.fontSize,
+    fontWeight: typography.title.fontWeight,
   },
-  code: {
-    textTransform: 'uppercase',
+  description: {
+    color: colors.text,
+    fontSize: typography.body.fontSize,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  status: {
+    color: colors.textSecondary,
+    fontSize: typography.caption.fontSize,
+  },
+  preview: {
+    gap: spacing.lg,
   },
 });
