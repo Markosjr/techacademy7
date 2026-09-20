@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Priority {
+  BAIXA
+  MEDIA
+  ALTA
+}
+
+enum RequestStatus {
+  ABERTA
+  EM_ANALISE
+  EM_ANDAMENTO
+  CONCLUIDA
+  CANCELADA
+}
+
+model User {
+  id            String               @id @default(uuid())
+  name          String
+  email         String               @unique
+  passwordHash  String
+  role          Role                 @default(USER)
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+  requests      MaintenanceRequest[]
+  statusChanges StatusHistory[]
+}
+
+model Category {
+  id        String               @id @default(uuid())
+  name      String               @unique
+  active    Boolean              @default(true)
+  createdAt DateTime             @default(now())
+  requests  MaintenanceRequest[]
+}
+
+model MaintenanceRequest {
+  id          String          @id @default(uuid())
+  title       String
+  description String
+  priority    Priority
+  status      RequestStatus   @default(ABERTA)
+  createdById String
+  categoryId  String
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  canceledAt  DateTime?
+  completedAt DateTime?
+  createdBy   User            @relation(fields: [createdById], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  category    Category        @relation(fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  images      RequestImage[]
+  history     StatusHistory[]
+}
+
+model RequestImage {
+  id           String             @id @default(uuid())
+  filename     String             @unique
+  originalName String
+  mimeType     String
+  size         Int
+  path         String             @unique
+  requestId    String
+  createdAt    DateTime           @default(now())
+  request      MaintenanceRequest @relation(fields: [requestId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+}
+
+model StatusHistory {
+  id             String             @id @default(uuid())
+  requestId      String
+  changedById    String
+  previousStatus RequestStatus
+  newStatus      RequestStatus
+  note           String?
+  createdAt      DateTime           @default(now())
+  request        MaintenanceRequest @relation(fields: [requestId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  changedBy      User               @relation(fields: [changedById], references: [id], onDelete: Restrict, onUpdate: Cascade)
+}

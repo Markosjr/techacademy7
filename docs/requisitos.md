@@ -1,6 +1,6 @@
 # Requisitos do FixFlow
 
-Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhum requisito funcional abaixo está implementado: a aplicação atual contém apenas a fundação mobile e uma tela de demonstração. A persona de referência está em `docs/persona.md`. Regras detalhadas de permissão, prioridade e transição de status serão formalizadas em etapa posterior.
+Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhum requisito funcional abaixo está implementado: a aplicação atual contém apenas a fundação mobile e uma tela de demonstração. A persona de referência está em `docs/persona.md`; as regras planejadas e a modelagem conceitual estão em `docs/regras-negocio.md` e `docs/modelagem-dados.md`.
 
 ## Requisitos Funcionais
 
@@ -30,7 +30,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 ### RF004 - Criar solicitação
 
-**Descrição:** Registrar uma solicitação de manutenção com título, descrição e categoria, associada ao usuário que a abriu. A prioridade será informada ou atribuída conforme regra a definir.
+**Descrição:** Registrar uma solicitação de manutenção com título, descrição, categoria ativa e prioridade inicial `BAIXA`, `MEDIA` ou `ALTA` informada pelo usuário, associada a quem a abriu.
 
 **Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Planejado.
 
@@ -38,7 +38,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 ### RF005 - Anexar imagem à solicitação
 
-**Descrição:** Permitir o envio opcional de imagem para mostrar o problema e vinculá-la à solicitação.
+**Descrição:** Permitir o envio opcional de imagem para mostrar o problema e vinculá-la à própria solicitação enquanto ela estiver `ABERTA`.
 
 **Ator(es):** Usuário comum. **Prioridade:** Importante. **Status:** Planejado.
 
@@ -62,7 +62,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 ### RF008 - Atualizar solicitação permitida
 
-**Descrição:** Permitir ao solicitante editar informações da própria solicitação quando as regras de negócio autorizarem.
+**Descrição:** Permitir ao solicitante editar título, descrição, categoria e prioridade inicial da própria solicitação enquanto estiver `ABERTA`.
 
 **Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Planejado.
 
@@ -70,7 +70,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 ### RF009 - Cancelar solicitação permitida
 
-**Descrição:** Oferecer ao solicitante uma ação controlada de cancelamento da própria solicitação, quando permitida, preservando o registro para histórico.
+**Descrição:** Oferecer ao solicitante uma ação controlada de cancelamento da própria solicitação em `ABERTA` ou `EM_ANALISE`, preservando o registro para histórico.
 
 **Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Planejado.
 
@@ -94,7 +94,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 ### RF012 - Administrar prioridade e informações permitidas
 
-**Descrição:** Permitir ao administrador ajustar prioridade e outros dados de atendimento definidos nas regras futuras, sem modificar indevidamente a autoria.
+**Descrição:** Permitir ao administrador ajustar prioridade em solicitações não finalizadas, sem modificar autoria ou dados originais do solicitante.
 
 **Ator(es):** Administrador. **Prioridade:** Importante. **Status:** Planejado.
 
@@ -110,15 +110,15 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 ### RF014 - Apresentar estados da solicitação
 
-**Descrição:** Usar os estados planejados `ABERTA`, `EM_ANALISE`, `EM_ANDAMENTO`, `CONCLUIDA` e `CANCELADA` para acompanhamento.
+**Descrição:** Usar os estados planejados `ABERTA`, `EM_ANALISE`, `EM_ANDAMENTO`, `CONCLUIDA` e `CANCELADA` para acompanhamento, respeitando as transições de `docs/regras-negocio.md`.
 
 **Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Planejado.
 
-**Critério de aceite:** Cada solicitação mostra um desses estados, e o estado exibido corresponde ao dado persistido. Transições específicas serão definidas depois.
+**Critério de aceite:** Cada solicitação mostra um desses estados, correspondente ao dado persistido; transições não previstas são recusadas.
 
 ### RF015 - Receber e validar imagem na API
 
-**Descrição:** Receber imagem com Multer, verificar tipo/extensão e tamanho e atribuir nome de armazenamento sem colisão.
+**Descrição:** Receber imagem com Multer, aceitar JPEG/JPG, PNG ou WEBP até 5 MB por arquivo, verificar MIME/type e extensão e atribuir nome de armazenamento sem colisão.
 
 **Ator(es):** Usuário comum; API. **Prioridade:** Importante. **Status:** Planejado.
 
@@ -126,7 +126,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 ## CRUD acadêmico principal
 
-O recurso principal é a **solicitação de manutenção**: **Create** corresponde a RF004; **Read**, a RF006, RF007 e RF010; **Update**, a RF008, RF011 e RF012. Para **Delete**, a proposta do MVP é usar o cancelamento controlado de RF009, com preservação do histórico, em vez de exclusão física pelo usuário. Essa decisão está **planejada** e sujeita à definição posterior das regras de negócio e à validação dos critérios acadêmicos. Não há CRUD implementado nesta etapa.
+O recurso principal é a **solicitação de manutenção**: **Create** corresponde a RF004; **Read**, a RF006, RF007 e RF010; **Update**, a RF008, RF011 e RF012. Para **Delete**, o MVP planeja o cancelamento controlado de RF009, com preservação do histórico, em vez de exclusão física pelo usuário, conforme `docs/regras-negocio.md`. A equivalência acadêmica ainda deverá ser validada na avaliação do projeto. Não há CRUD implementado nesta etapa.
 
 ## Requisitos Não Funcionais
 

@@ -154,3 +154,28 @@ Criar a fundação da API e da persistência conforme os documentos, quando houv
 ### Escopo e próxima etapa
 
 Não foram criados banco, Prisma, autenticação, regras de solicitação, CRUD ou integração mobile. A próxima etapa lógica é a persistência com Prisma e SQLite, mediante autorização específica.
+
+---
+
+## Versão 0.7 - Persistência com Prisma e SQLite
+
+### Estrutura implementada
+
+- Prisma ORM e Prisma Client 7.10.0 adicionados com o adaptador oficial para SQLite.
+- `api/prisma/schema.prisma` implementa User, Category, MaintenanceRequest, RequestImage e StatusHistory, incluindo enums, chaves, relações e restrições estruturais.
+- A migration `initial_schema` criou as cinco tabelas e índices; o banco local fica em `api/prisma/dev.db` e é ignorado pelo Git.
+- `api/src/database/prisma.ts` centraliza a instância do Prisma Client para futuros módulos.
+- Relações usam exclusão restritiva para preservar solicitações e histórico. Enums Prisma são armazenados como texto no SQLite.
+
+### Validações
+
+- `prisma format`, `prisma validate` e `prisma generate`: aprovados.
+- `prisma migrate dev --name initial_schema`: migration criada e aplicada.
+- As tabelas User, Category, MaintenanceRequest, RequestImage e StatusHistory foram confirmadas por leitura do catálogo SQLite.
+- Uma consulta de contagem com o Prisma Client conectou ao banco e retornou zero usuários, sem inserir dados.
+- `npm run typecheck` e `npm run build`: aprovados.
+- `GET /api/health`: continuou respondendo HTTP 200 com `{"status":"ok","service":"fixflow-api"}`.
+
+### Escopo e próxima etapa
+
+Não foram implementados seed, cadastro, autenticação, endpoints, CRUD, regras de transição, upload ou integração mobile. A próxima etapa sugerida é autenticação e autorização na API, mediante autorização específica.

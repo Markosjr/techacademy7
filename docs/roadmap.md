@@ -6,11 +6,11 @@ Este plano organiza entregas possíveis, sem autorizar sua implementação antec
 
 - Problema, público-alvo genérico, proposta e objetivos registrados em `docs/problema.md`.
 - Base React Native + Expo + TypeScript criada em `mobile/`.
-- Fundação da API REST implementada em `api/` com Express e TypeScript, rota de saúde e tratamento básico de 404/erros. Banco e endpoints de domínio ainda não existem.
+- Fundação da API REST implementada em `api/` com Express e TypeScript, rota de saúde e tratamento básico de 404/erros. A persistência SQLite existe, mas endpoints de domínio ainda não.
 - Rubrica, roadmap e orientações de trabalho documentados.
 - Fundação mobile concluída: Expo Router preservado em `src/app/`, componentes base em `src/components/`, tokens em `src/theme/` e tela inicial temporária. Ainda não há funcionalidades de domínio.
 - Persona acadêmica e requisitos do MVP documentados em `docs/persona.md` e `docs/requisitos.md`. Não houve validação com cliente real nem implementação dos fluxos.
-- Regras planejadas, cinco entidades conceituais e DER documentados em `docs/regras-negocio.md`, `docs/modelagem-dados.md` e `docs/der.md`; banco ainda não existe.
+- Regras planejadas, cinco entidades e DER documentados; o schema Prisma e a migration SQLite agora correspondem à modelagem, ainda sem regras de negócio implementadas.
 
 ## Etapas do produto
 
@@ -19,7 +19,7 @@ Este plano organiza entregas possíveis, sem autorizar sua implementação antec
 | 1. Produto e requisitos — documentação concluída | Persona representativa, jornada, escopo do MVP e requisitos funcionais e não funcionais em `docs/persona.md` e `docs/requisitos.md`. | Documento rastreável ao problema; validação com cliente real ainda não realizada. |
 | 2. Modelagem e regras — documentação concluída | Regras de prioridade, edição, cancelamento e status; entidades, relacionamentos, perfis e DER em `docs/regras-negocio.md`, `docs/modelagem-dados.md` e `docs/der.md`. | Documentos conceituais consistentes com os requisitos; implementação ainda prevista. |
 | 3. Fundação da API — concluída | Node.js, Express e TypeScript; rota `GET /api/health`, 404 e middleware de erro. | Typecheck e build passaram; respostas 200 e 404 verificadas localmente. |
-| 4. Persistência — prevista | Adicionar Prisma e SQLite conforme a modelagem documentada, sem antecipar autenticação ou CRUD. | Schema e acesso ao banco verificáveis em etapa autorizada. |
+| 4. Persistência — concluída | Prisma 7.10.0, SQLite, schema das cinco entidades, migration inicial e Prisma Client centralizado. | Schema validado, migration aplicada, tabelas e consulta do client verificadas. |
 | 5. Autenticação e autorização | Cadastro e login, JWT e perfis ADMIN/comum. | Rotas protegidas e permissões verificadas no servidor. |
 | 6. Solicitações ponta a ponta | CRUD acadêmico de solicitações na API e no app, usando Axios. | Criar, listar/consultar, editar e cancelar a partir do app com dados persistidos, conforme as regras planejadas. |
 | 7. Imagens | Upload com Multer e vínculo com solicitações; validação de extensão, tamanho e nomes sem colisão. | Upload válido funciona; arquivos inválidos e excessivos são rejeitados; nomes não sobrescrevem arquivos. |
