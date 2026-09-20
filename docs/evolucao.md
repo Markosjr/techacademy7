@@ -179,3 +179,24 @@ Não foram criados banco, Prisma, autenticação, regras de solicitação, CRUD 
 ### Escopo e próxima etapa
 
 Não foram implementados seed, cadastro, autenticação, endpoints, CRUD, regras de transição, upload ou integração mobile. A próxima etapa sugerida é autenticação e autorização na API, mediante autorização específica.
+
+---
+
+## Versão 0.8 - Autenticação e autorização
+
+### Entregas
+
+- Cadastro público cria somente `USER`, valida nome, e-mail e senha, normaliza o e-mail e armazena hash bcrypt.
+- Login retorna JWT com expiração configurável e dados públicos do usuário; falhas não distinguem e-mail de senha incorreta.
+- Middleware de autenticação valida Bearer token e consulta identidade e perfil atuais no banco.
+- `GET /api/auth/me` retorna o usuário autenticado sem `passwordHash`.
+- Middleware de autorização protege `GET /api/admin/check`; `USER` recebe 403 e `ADMIN` recebe 200.
+- Seed idempotente cria cinco categorias e aceita criação opcional de `ADMIN` por variáveis de ambiente, sem credenciais versionadas.
+
+### Validações
+
+Foram verificados cadastro válido (201), payload inválido (400), e-mail repetido (409), login válido (200), login inválido (401), `/me` sem token (401), `/me` com `USER` (200), rota administrativa com `USER` (403) e com `ADMIN` (200). O banco confirmou papéis `USER`/`ADMIN`, cinco categorias sem duplicação e hashes bcrypt válidos. `npm run typecheck`, `npm run build`, `npm run db:seed`, Prisma validate/generate e o health check também passaram.
+
+### Escopo e próxima etapa
+
+Não foram implementados CRUD de solicitações, regras de status, upload, integração mobile, refresh token ou recuperação de senha. A próxima etapa sugerida é o CRUD de solicitações na API com as regras já documentadas.

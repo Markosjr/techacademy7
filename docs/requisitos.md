@@ -1,6 +1,6 @@
 # Requisitos do FixFlow
 
-Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhum requisito funcional abaixo está implementado: a aplicação atual contém apenas a fundação mobile e uma tela de demonstração. A persona de referência está em `docs/persona.md`; as regras planejadas e a modelagem conceitual estão em `docs/regras-negocio.md` e `docs/modelagem-dados.md`.
+Este documento define o comportamento do MVP acadêmico. A autenticação e autorização estão implementadas na API, mas ainda não estão integradas ao mobile; os demais fluxos funcionais continuam planejados. A persona de referência está em `docs/persona.md`; as regras e a modelagem estão em `docs/regras-negocio.md` e `docs/modelagem-dados.md`.
 
 ## Requisitos Funcionais
 
@@ -8,7 +8,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 **Descrição:** Permitir o cadastro de uma conta de usuário comum com dados de identificação e credencial.
 
-**Ator(es):** Visitante. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Visitante. **Prioridade:** Essencial. **Status:** Implementado na API; mobile planejado.
 
 **Critério de aceite:** Um cadastro válido cria uma conta; dados inválidos ou identificação já utilizada são rejeitados com mensagem clara.
 
@@ -16,7 +16,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 **Descrição:** Autenticar o usuário por credenciais e iniciar uma sessão.
 
-**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Implementado na API; mobile planejado.
 
 **Critério de aceite:** Credenciais válidas permitem acesso ao perfil correspondente; credenciais inválidas não permitem acesso.
 
@@ -24,7 +24,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 **Descrição:** Exibir a identidade/perfil da sessão ativa e permitir sua finalização.
 
-**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Identificação implementada na API; sessão mobile planejada.
 
 **Critério de aceite:** A aplicação identifica o usuário autenticado; após sair, áreas protegidas exigem nova autenticação.
 
@@ -104,7 +104,7 @@ Este documento define o **comportamento planejado** para o MVP acadêmico. Nenhu
 
 **Descrição:** Aplicar controle de acesso entre perfis `USER` e `ADMIN` nas operações e consultas.
 
-**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** RBAC base implementado na API; permissões de solicitações planejadas.
 
 **Critério de aceite:** A API impede acesso não autenticado e recusa operações administrativas para `USER`, mesmo se chamadas diretamente.
 

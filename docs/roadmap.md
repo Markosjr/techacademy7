@@ -11,6 +11,7 @@ Este plano organiza entregas possíveis, sem autorizar sua implementação antec
 - Fundação mobile concluída: Expo Router preservado em `src/app/`, componentes base em `src/components/`, tokens em `src/theme/` e tela inicial temporária. Ainda não há funcionalidades de domínio.
 - Persona acadêmica e requisitos do MVP documentados em `docs/persona.md` e `docs/requisitos.md`. Não houve validação com cliente real nem implementação dos fluxos.
 - Regras planejadas, cinco entidades e DER documentados; o schema Prisma e a migration SQLite agora correspondem à modelagem, ainda sem regras de negócio implementadas.
+- Cadastro e login na API, JWT, identificação do usuário, RBAC `USER`/`ADMIN` e categorias iniciais estão implementados. O mobile ainda não usa esses fluxos.
 
 ## Etapas do produto
 
@@ -20,7 +21,7 @@ Este plano organiza entregas possíveis, sem autorizar sua implementação antec
 | 2. Modelagem e regras — documentação concluída | Regras de prioridade, edição, cancelamento e status; entidades, relacionamentos, perfis e DER em `docs/regras-negocio.md`, `docs/modelagem-dados.md` e `docs/der.md`. | Documentos conceituais consistentes com os requisitos; implementação ainda prevista. |
 | 3. Fundação da API — concluída | Node.js, Express e TypeScript; rota `GET /api/health`, 404 e middleware de erro. | Typecheck e build passaram; respostas 200 e 404 verificadas localmente. |
 | 4. Persistência — concluída | Prisma 7.10.0, SQLite, schema das cinco entidades, migration inicial e Prisma Client centralizado. | Schema validado, migration aplicada, tabelas e consulta do client verificadas. |
-| 5. Autenticação e autorização | Cadastro e login, JWT e perfis ADMIN/comum. | Rotas protegidas e permissões verificadas no servidor. |
+| 5. Autenticação e autorização da API — concluída | Cadastro público `USER`, login, JWT, `/auth/me`, RBAC e `ADMIN` opcional por seed; categorias iniciais idempotentes. | Cenários 201, 400, 401, 403 e 409 verificados; `ADMIN` autorizado no servidor. Integração mobile ainda prevista. |
 | 6. Solicitações ponta a ponta | CRUD acadêmico de solicitações na API e no app, usando Axios. | Criar, listar/consultar, editar e cancelar a partir do app com dados persistidos, conforme as regras planejadas. |
 | 7. Imagens | Upload com Multer e vínculo com solicitações; validação de extensão, tamanho e nomes sem colisão. | Upload válido funciona; arquivos inválidos e excessivos são rejeitados; nomes não sobrescrevem arquivos. |
 | 8. Experiência e segurança | Refinar navegação, feedback, erros, acessibilidade, compatibilidade e proteção de dados. | Fluxos principais verificados nos ambientes escolhidos e falhas tratadas. |

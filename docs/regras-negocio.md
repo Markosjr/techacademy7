@@ -1,6 +1,6 @@
 # Regras de Negócio do FixFlow
 
-As regras abaixo definem o comportamento **planejado** para o MVP. Deverão ser aplicadas e verificadas no backend quando ele for implementado; esconder ações no aplicativo não substitui autorização no servidor. `USER` representa o solicitante comum; `ADMIN`, o responsável pelo gerenciamento. Nenhuma regra deste documento está implementada em código.
+As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e RN013 já possuem implementação na API para cadastro, autenticação, autorização e proteção do hash; as regras de solicitações continuam planejadas. Esconder ações no aplicativo não substitui autorização no servidor. `USER` representa o solicitante comum; `ADMIN`, o responsável pelo gerenciamento.
 
 ## Perfis e permissões planejadas
 
@@ -21,7 +21,7 @@ As regras abaixo definem o comportamento **planejado** para o MVP. Deverão ser 
 
 **Aplicação:** Validar o perfil no backend ao criar a conta; contas administrativas serão preparadas por procedimento controlado em etapa futura.
 
-**Atores envolvidos:** Visitante, USER, ADMIN. **Requisitos relacionados:** RF001, RF013. **Status:** Planejada.
+**Atores envolvidos:** Visitante, USER, ADMIN. **Requisitos relacionados:** RF001, RF013. **Status:** Implementada na API.
 
 ### RN002 - E-mail único e senha protegida
 
@@ -29,7 +29,7 @@ As regras abaixo definem o comportamento **planejado** para o MVP. Deverão ser 
 
 **Aplicação:** Rejeitar cadastro com e-mail já utilizado e armazenar apenas o hash da senha.
 
-**Atores envolvidos:** Visitante, USER, ADMIN. **Requisitos relacionados:** RF001, RF002. **Status:** Planejada.
+**Atores envolvidos:** Visitante, USER, ADMIN. **Requisitos relacionados:** RF001, RF002. **Status:** Implementada na API.
 
 ### RN003 - Autenticação e autorização no servidor
 
@@ -37,7 +37,7 @@ As regras abaixo definem o comportamento **planejado** para o MVP. Deverão ser 
 
 **Aplicação:** Verificar identidade e perfil em cada operação protegida no backend, inclusive quando a API for chamada diretamente.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF013. **Status:** Planejada.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF013. **Status:** Implementada na API; aplicação ao domínio de solicitações planejada.
 
 ### RN004 - Propriedade e alcance de consulta
 
@@ -127,7 +127,7 @@ As regras abaixo definem o comportamento **planejado** para o MVP. Deverão ser 
 
 **Aplicação:** Definir respostas públicas sem o campo sensível e verificar os retornos das rotas que consultam usuário, pedido ou histórico.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF007, RF010, RF013. **Status:** Planejada.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF007, RF010, RF013. **Status:** Implementada nas respostas de autenticação; respostas do domínio planejadas.
 
 ## Rastreabilidade
 
