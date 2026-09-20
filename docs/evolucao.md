@@ -110,3 +110,47 @@ Esta etapa produz evidências documentais de contextualização e evolução, re
 ### Próxima etapa prevista
 
 Detalhar regras de negócio e modelagem de dados, incluindo estados, permissões e DER.
+
+---
+
+## Versão 0.5 - Regras de negócio e modelagem de dados
+
+### Objetivo e entregas
+
+- `docs/regras-negocio.md` formaliza 13 regras planejadas para perfis, propriedade, criação, edição, cancelamento, prioridade, imagens, segurança e histórico.
+- `docs/modelagem-dados.md` define conceitualmente User, Category, MaintenanceRequest, RequestImage e StatusHistory, seus campos, chaves e relacionamentos.
+- `docs/der.md` apresenta o DER em Mermaid com as cinco entidades e suas cardinalidades.
+- `docs/requisitos.md` foi ajustado para refletir as decisões agora definidas de prioridade inicial, edição, cancelamento, imagens e transições de status.
+
+### Decisões de modelagem
+
+O cancelamento representa remoção lógica e preserva o pedido. Category padroniza a classificação; RequestImage separa metadados do arquivo; StatusHistory registra transições e responsáveis. Mudanças de status somente seguem a tabela de `docs/regras-negocio.md`.
+
+### Relação com a rubrica e estado
+
+Há evidência documental para regras de negócio, DER, requisitos e evolução do produto. Nenhuma regra, entidade ou transição foi implementada em código. API, Prisma, SQLite, autenticação e CRUD continuam planejados.
+
+### Próxima etapa prevista
+
+Criar a fundação da API e da persistência conforme os documentos, quando houver autorização específica.
+
+---
+
+## Versão 0.6 - Fundação da API REST
+
+### Objetivo e estrutura
+
+- `api/` recebeu um projeto Node.js com Express, TypeScript, `dotenv` e `tsx`.
+- `src/app.ts` configura a aplicação; `src/server.ts` inicia o HTTP; `src/routes/` reúne as rotas; `src/middlewares/` trata 404 e erros; `src/config/` valida a porta.
+- `GET /api/health` confirma somente que o servidor está ativo. Uma rota inexistente recebe JSON com HTTP 404; o middleware de erro responde em JSON sem expor stack trace ao cliente.
+- `docs/api.md` descreve a estrutura e o endpoint disponível.
+
+### Validações
+
+- `npm run typecheck` e `npm run build` passaram.
+- O build iniciou com `npm start`; `GET /api/health` respondeu HTTP 200 com `{"status":"ok","service":"fixflow-api"}` e a rota inexistente respondeu HTTP 404 com `{"message":"Rota não encontrada."}`.
+- `npm run dev` iniciou com um ajuste temporário no ambiente de teste para contornar falha de `os.userInfo()` do Node neste sandbox Windows; as mesmas respostas 200 e 404 foram verificadas. O ajuste não foi incorporado ao projeto.
+
+### Escopo e próxima etapa
+
+Não foram criados banco, Prisma, autenticação, regras de solicitação, CRUD ou integração mobile. A próxima etapa lógica é a persistência com Prisma e SQLite, mediante autorização específica.
