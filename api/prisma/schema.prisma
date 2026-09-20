@@ -80,7 +80,7 @@ model StatusHistory {
   id             String             @id @default(uuid())
   requestId      String
   changedById    String
-  previousStatus RequestStatus
+  previousStatus RequestStatus?
   newStatus      RequestStatus
   note           String?
   createdAt      DateTime           @default(now())

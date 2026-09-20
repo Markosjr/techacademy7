@@ -200,3 +200,24 @@ Foram verificados cadastro válido (201), payload inválido (400), e-mail repeti
 ### Escopo e próxima etapa
 
 Não foram implementados CRUD de solicitações, regras de status, upload, integração mobile, refresh token ou recuperação de senha. A próxima etapa sugerida é o CRUD de solicitações na API com as regras já documentadas.
+
+---
+
+## Versão 0.9 - CRUD e regras de negócio das solicitações
+
+### Entregas
+
+- A API passou a criar, listar, detalhar e editar solicitações e a realizar cancelamento lógico, com persistência Prisma/SQLite.
+- `USER` cria e consulta apenas pedidos próprios, edita dados permitidos somente em `ABERTA` e cancela em `ABERTA` ou `EM_ANALISE`; consulta alheia por ID retorna 404.
+- `ADMIN` consulta todos os pedidos, avança somente `ABERTA → EM_ANALISE → EM_ANDAMENTO → CONCLUIDA` e ajusta prioridade apenas antes de estado terminal.
+- Categorias ativas são listadas e validadas na criação e edição. Filtros por status, prioridade e categoria respeitam o alcance de cada perfil.
+- Criação, cancelamento e mudança administrativa de status geram histórico com responsável e data. Operações compostas usam transação Prisma; `completedAt` e `canceledAt` acompanham os respectivos estados.
+- O primeiro histórico usa `previousStatus` nulo, exigindo uma migration pequena e coerente com a semântica do evento de criação.
+
+### Validações
+
+Foram aprovados os cenários A–P definidos para autenticação, propriedade, edição, cancelamento, autorização administrativa, máquina de estados e prioridade. Também foram conferidos filtros, rejeição de campos protegidos, histórico cronológico, ausência de `passwordHash`, relação vazia de imagens e persistência direta de autoria, categoria, histórico e datas no SQLite. `npm run typecheck`, `npm run build`, `npx prisma validate`, seed, autenticação existente e `GET /api/health` passaram.
+
+### Escopo e próxima etapa
+
+Não foram alterados o mobile nem o fluxo de imagens. A próxima etapa é integrar React Native à autenticação e ao CRUD da API usando Axios; upload com Multer permanece para incremento posterior.

@@ -1,6 +1,6 @@
 # Modelagem de Dados do FixFlow
 
-Modelo conceitual do MVP, implementado estruturalmente em `api/prisma/schema.prisma` e na migration inicial SQLite. Ainda não existem endpoints ou regras de domínio usando o banco. `id` é chave primária de cada entidade; datas representam instante de criação ou atualização.
+Modelo conceitual do MVP, implementado em `api/prisma/schema.prisma` e nas migrations SQLite. A API já usa o modelo para autenticação, categorias, solicitações e histórico de status. `id` é chave primária UUID de cada entidade; datas representam instante de criação ou atualização.
 
 ## Entidades e campos
 
@@ -64,12 +64,12 @@ Uma solicitação pode não ter imagem ou ter várias. O arquivo aceito deve ter
 | `id` | Sim | Identificador e chave primária. |
 | `requestId` | Sim | Chave estrangeira para `MaintenanceRequest.id`. |
 | `changedById` | Sim | Chave estrangeira para `User.id`; usuário autenticado que fez a transição. |
-| `previousStatus` | Sim | Status antes da alteração. |
+| `previousStatus` | Não | Status antes da alteração; nulo somente no evento de criação inicial. |
 | `newStatus` | Sim | Status após a alteração. |
 | `note` | Não | Observação da mudança, quando houver. |
 | `createdAt` | Sim | Data e hora da alteração. |
 
-O status inicial `ABERTA` fica em `MaintenanceRequest`. `StatusHistory` registra as transições posteriores, sempre com status anterior e novo status definidos.
+O status inicial `ABERTA` fica em `MaintenanceRequest` e também gera um evento de criação com `previousStatus` nulo e `newStatus` igual a `ABERTA`. As transições posteriores sempre possuem status anterior e novo status definidos.
 
 ## Relacionamentos e integridade
 
@@ -78,7 +78,7 @@ O status inicial `ABERTA` fica em `MaintenanceRequest`. `StatusHistory` registra
 | User → MaintenanceRequest | 1:N | Cada pedido tem exatamente um criador (`createdById` obrigatório); um usuário pode criar nenhum ou vários pedidos. |
 | Category → MaintenanceRequest | 1:N | Cada pedido tem exatamente uma categoria (`categoryId` obrigatório); uma categoria pode classificar nenhum ou vários pedidos. |
 | MaintenanceRequest → RequestImage | 1:N | Cada imagem pertence a exatamente um pedido (`requestId` obrigatório); um pedido pode ter nenhuma ou várias imagens. |
-| MaintenanceRequest → StatusHistory | 1:N | Cada evento pertence a exatamente um pedido (`requestId` obrigatório); um pedido recém-criado pode não ter eventos. |
+| MaintenanceRequest → StatusHistory | 1:N | Cada evento pertence a exatamente um pedido (`requestId` obrigatório); a criação da solicitação gera o primeiro evento. |
 | User → StatusHistory | 1:N | Cada evento tem exatamente um responsável (`changedById` obrigatório); um usuário pode não ter alterações registradas. |
 
 `User.email` deve ser único. As chaves estrangeiras acima não são nulas. Como o MVP preserva solicitações e histórico, não há operação de exclusão física de pedidos ou usuários; nenhuma remoção em cascata faz parte do fluxo planejado.

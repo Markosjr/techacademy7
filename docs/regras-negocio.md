@@ -1,6 +1,6 @@
 # Regras de Negócio do FixFlow
 
-As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e RN013 já possuem implementação na API para cadastro, autenticação, autorização e proteção do hash; as regras de solicitações continuam planejadas. Esconder ações no aplicativo não substitui autorização no servidor. `USER` representa o solicitante comum; `ADMIN`, o responsável pelo gerenciamento.
+As regras abaixo definem o comportamento do MVP. As regras de autenticação e do domínio de solicitações estão implementadas na API; a regra de imagens permanece planejada. Esconder ações no aplicativo não substitui autorização no servidor. `USER` representa o solicitante comum; `ADMIN`, o responsável pelo gerenciamento.
 
 ## Perfis e permissões planejadas
 
@@ -37,7 +37,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Verificar identidade e perfil em cada operação protegida no backend, inclusive quando a API for chamada diretamente.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF013. **Status:** Implementada na API; aplicação ao domínio de solicitações planejada.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF013. **Status:** Implementada na API, inclusive nas rotas de solicitações.
 
 ### RN004 - Propriedade e alcance de consulta
 
@@ -45,7 +45,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Comparar `MaintenanceRequest.createdById` com o usuário autenticado no backend antes de listar, detalhar, editar, cancelar ou anexar imagem como `USER`.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF005, RF006, RF007, RF008, RF009, RF010, RF013. **Status:** Planejada.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF005, RF006, RF007, RF008, RF009, RF010, RF013. **Status:** Implementada na API para consulta, edição e cancelamento; imagens permanecem pendentes.
 
 ### RN005 - Criação padronizada
 
@@ -53,7 +53,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Validar campos, categoria e prioridade; atribuir autoria e estado inicial no backend, sem aceitar autoria enviada como autoridade pelo aplicativo.
 
-**Atores envolvidos:** USER. **Requisitos relacionados:** RF004, RF014. **Status:** Planejada.
+**Atores envolvidos:** USER. **Requisitos relacionados:** RF004, RF014. **Status:** Implementada na API.
 
 ### RN006 - Transições de status controladas
 
@@ -61,7 +61,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Rejeitar qualquer transição fora da tabela no backend, incluindo `CONCLUIDA → ABERTA` e `CANCELADA → EM_ANDAMENTO`.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF009, RF011, RF014. **Status:** Planejada.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF009, RF011, RF014. **Status:** Implementada na API.
 
 | Status atual | Próximos status permitidos | Ator autorizado |
 | --- | --- | --- |
@@ -79,7 +79,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Conferir autoria e estado antes de aceitar alterações; não permitir edição de autoria, status ou campos administrativos por `USER`.
 
-**Atores envolvidos:** USER. **Requisitos relacionados:** RF008, RF013. **Status:** Planejada.
+**Atores envolvidos:** USER. **Requisitos relacionados:** RF008, RF013. **Status:** Implementada na API.
 
 ### RN008 - Cancelamento como remoção lógica
 
@@ -87,7 +87,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Tratar cancelamento como operação controlada equivalente ao Delete acadêmico; rejeitar cancelamento em outros estados e manter o registro consultável.
 
-**Atores envolvidos:** USER. **Requisitos relacionados:** RF009, RF014. **Status:** Planejada.
+**Atores envolvidos:** USER. **Requisitos relacionados:** RF009, RF014. **Status:** Implementada na API.
 
 ### RN009 - Ajuste administrativo de prioridade
 
@@ -95,7 +95,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Autorizar apenas o campo de prioridade nos pedidos não finalizados. A definição de um log específico para prioridade fica fora do modelo inicial.
 
-**Atores envolvidos:** ADMIN. **Requisitos relacionados:** RF012, RF013. **Status:** Planejada.
+**Atores envolvidos:** ADMIN. **Requisitos relacionados:** RF012, RF013. **Status:** Implementada na API.
 
 ### RN010 - Imagens válidas e vinculadas
 
@@ -107,11 +107,11 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 ### RN011 - Histórico de mudança de status
 
-**Descrição:** Cada transição de status aceita gera um registro com solicitação, status anterior, novo status, usuário autenticado responsável, data/hora e observação opcional. A criação em `ABERTA` é representada pelo estado inicial da solicitação, sem transição anterior.
+**Descrição:** A criação e cada transição de status aceita geram registro com solicitação, status anterior quando existente, novo status, usuário autenticado responsável, data/hora e observação opcional. Na criação em `ABERTA`, `previousStatus` é nulo.
 
 **Aplicação:** Gravar a mudança de status e o histórico na mesma operação; `completedAt` ou `canceledAt` deve acompanhar a transição correspondente.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF007, RF009, RF011, RF014. **Status:** Planejada.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF007, RF009, RF011, RF014. **Status:** Implementada na API com transações Prisma.
 
 ### RN012 - Categoria válida
 
@@ -119,7 +119,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Validar `categoryId` no backend. Categorias poderão ser pré-cadastradas; não há CRUD administrativo de categorias no MVP.
 
-**Atores envolvidos:** USER. **Requisitos relacionados:** RF004, RF008. **Status:** Planejada.
+**Atores envolvidos:** USER. **Requisitos relacionados:** RF004, RF008. **Status:** Implementada na API.
 
 ### RN013 - Proteção do hash nas respostas
 
@@ -127,7 +127,7 @@ As regras abaixo definem o comportamento do MVP. As regras RN001, RN002, RN003 e
 
 **Aplicação:** Definir respostas públicas sem o campo sensível e verificar os retornos das rotas que consultam usuário, pedido ou histórico.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF007, RF010, RF013. **Status:** Implementada nas respostas de autenticação; respostas do domínio planejadas.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF002, RF003, RF007, RF010, RF013. **Status:** Implementada nas respostas de autenticação e solicitações.
 
 ## Rastreabilidade
 

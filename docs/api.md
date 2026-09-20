@@ -1,55 +1,48 @@
 # API FixFlow
 
-## Objetivo
+## Objetivo e tecnologias
 
-A API REST será a camada de comunicação entre o aplicativo mobile e a persistência. Nesta etapa, ela apenas confirma que o servidor HTTP está em execução; ainda não acessa banco de dados.
+A API REST liga os futuros clientes do FixFlow à persistência SQLite. Usa Node.js, Express, TypeScript, Prisma, Zod, JWT e bcrypt. A integração React Native e o upload com Multer ainda não fazem parte desta versão.
 
-## Tecnologias
+Todas as rotas protegidas recebem `Authorization: Bearer <token>`. Entradas inválidas retornam 400; ausência ou invalidade de autenticação, 401; perfil sem permissão, 403; recurso não encontrado, 404; e violação do estado atual, 409. IDs são UUIDs, conforme o schema Prisma.
 
-- Node.js
-- Express
-- TypeScript
+## Endpoints implementados
 
-`dotenv` lê a porta do ambiente e `tsx` executa o servidor durante o desenvolvimento.
+| Método | Rota | Autenticação e perfil | Objetivo |
+| --- | --- | --- | --- |
+| `GET` | `/api/health` | Público | Confirmar que o servidor HTTP está ativo. |
+| `POST` | `/api/auth/register` | Público | Criar conta com perfil `USER`. |
+| `POST` | `/api/auth/login` | Público | Validar credenciais e emitir JWT. |
+| `GET` | `/api/auth/me` | `USER` ou `ADMIN` | Retornar dados públicos do usuário autenticado. |
+| `GET` | `/api/admin/check` | `ADMIN` | Comprovar autorização administrativa. |
+| `GET` | `/api/categories` | `USER` ou `ADMIN` | Listar categorias ativas em ordem alfabética. |
+| `POST` | `/api/requests` | `USER` | Criar solicitação própria em `ABERTA`. |
+| `GET` | `/api/requests` | `USER` ou `ADMIN` | Listar próprias solicitações para `USER` e todas para `ADMIN`. |
+| `GET` | `/api/requests/:id` | `USER` proprietário ou `ADMIN` | Consultar detalhes, categoria, criador público, imagens e histórico. |
+| `PATCH` | `/api/requests/:id` | `USER` proprietário | Alterar título, descrição, categoria ou prioridade enquanto `ABERTA`. |
+| `PATCH` | `/api/requests/:id/cancel` | `USER` proprietário | Cancelar logicamente pedido em `ABERTA` ou `EM_ANALISE`. |
+| `PATCH` | `/api/requests/:id/status` | `ADMIN` | Executar a próxima transição administrativa permitida. |
+| `PATCH` | `/api/requests/:id/priority` | `ADMIN` | Ajustar prioridade de pedido não finalizado. |
 
-## Estrutura atual
+`GET /api/requests` aceita os filtros opcionais `status`, `priority` e `categoryId`. Os filtros respeitam o mesmo escopo: um `USER` nunca amplia a consulta além das próprias solicitações. A consulta por ID de uma solicitação alheia retorna 404 para não revelar sua existência.
 
-- `api/src/app.ts`: configura Express, JSON, rotas e middlewares.
-- `api/src/server.ts`: inicia o servidor HTTP na porta configurada.
-- `api/src/routes/`: reúne as rotas sob o prefixo `/api`.
-- `api/src/middlewares/`: responde a rotas inexistentes e trata erros em JSON.
-- `api/src/config/env.ts`: lê e valida `PORT` (padrão `3333`).
-- `api/src/controllers/`, `services/` e `schemas/`: separam HTTP, autenticação e validação de entrada.
-- `api/src/middlewares/authenticate.ts` e `authorize.ts`: validam JWT, consultam o usuário atual e aplicam RBAC.
-- `api/prisma/schema.prisma`: define as cinco entidades e seus relacionamentos.
-- `api/prisma/migrations/`: mantém a evolução versionável do schema SQLite.
-- `api/src/database/prisma.ts`: centraliza o adaptador SQLite e a instância do Prisma Client para uso futuro.
+## CRUD principal
 
-Para executar, entre em `api/`, instale as dependências com `npm install` e use `npm run dev`. `npm run typecheck` verifica os tipos; `npm run build` compila para `dist/`; `npm start` executa o build. `api/.env.example` mostra a variável opcional de porta.
+- **Create:** `POST /api/requests` valida título, descrição, prioridade e categoria ativa. Autoria e status `ABERTA` vêm do servidor. Solicitação e evento inicial de histórico são gravados atomicamente.
+- **Read:** listagem e detalhes aplicam propriedade para `USER`; `ADMIN` pode consultar todas. Seleções públicas nunca retornam `passwordHash`.
+- **Update:** `PATCH /api/requests/:id` aceita somente título, descrição, categoria e prioridade do próprio pedido `ABERTA`. Os endpoints administrativos separados controlam status e prioridade.
+- **Cancelamento lógico:** `PATCH /api/requests/:id/cancel` muda o status para `CANCELADA`, preenche `canceledAt` e gera histórico na mesma transação.
 
-## Persistência
+Não existe `DELETE /api/requests/:id`. O projeto preserva solicitação, relações e histórico para rastreabilidade; o cancelamento lógico representa a remoção no CRUD acadêmico.
 
-A camada de persistência usa Prisma ORM 7.10.0 e SQLite. A URL do banco fica em `DATABASE_URL`; o arquivo local `api/prisma/dev.db` e o client gerado são ignorados pelo Git. `npm run prisma:generate` gera o client e `npm run prisma:migrate -- --name <nome>` cria e aplica migrations em desenvolvimento.
+## Máquina de estados e histórico
 
-## Endpoint disponível nesta etapa
+O `ADMIN` pode executar somente `ABERTA → EM_ANALISE → EM_ANDAMENTO → CONCLUIDA`. O `USER` proprietário pode executar `ABERTA → CANCELADA` ou `EM_ANALISE → CANCELADA` pelo endpoint de cancelamento. `CONCLUIDA` e `CANCELADA` são terminais.
 
-`GET /api/health` retorna HTTP 200 e `{"status":"ok","service":"fixflow-api"}`. Ele atesta somente que a API está no ar, sem verificar banco ou outros serviços. Rotas inexistentes retornam HTTP 404 e `{"message":"Rota não encontrada."}`.
+Cada criação, cancelamento ou transição administrativa gera `StatusHistory` com responsável, data, status anterior, novo status e observação. No evento inicial, `previousStatus` é nulo. A entrada em `CONCLUIDA` preenche `completedAt`; o cancelamento preenche `canceledAt`.
 
-## Autenticação e autorização implementadas
+## Persistência e dados iniciais
 
-| Método e caminho | Acesso | Finalidade |
-| --- | --- | --- |
-| `POST /api/auth/register` | Público | Valida nome, e-mail e senha, normaliza o e-mail, cria sempre um `USER` e retorna HTTP 201 sem o hash. |
-| `POST /api/auth/login` | Público | Valida credenciais e retorna JWT e dados públicos do usuário. Falhas usam mensagem genérica e HTTP 401. |
-| `GET /api/auth/me` | Bearer JWT | Consulta e retorna os dados atuais do usuário autenticado. |
-| `GET /api/admin/check` | Bearer JWT de `ADMIN` | Demonstra autorização por perfil; `USER` recebe HTTP 403. |
+O schema está em `api/prisma/schema.prisma`, as migrations em `api/prisma/migrations/` e o acesso compartilhado em `api/src/database/prisma.ts`. `npm run db:seed` mantém as cinco categorias iniciais e configura um `ADMIN` opcional somente quando as três variáveis de seed são fornecidas.
 
-Senhas são armazenadas com bcrypt, e `JWT_SECRET` é obrigatório com pelo menos 32 caracteres. `JWT_EXPIRES_IN` tem padrão de uma hora. Embora o token contenha o perfil, o middleware consulta o usuário no banco e usa o perfil atual persistido para autorizar a requisição.
-
-## Dados iniciais
-
-`npm run db:seed` compila e executa um seed idempotente para as categorias Elétrica, Hidráulica, Equipamentos, Infraestrutura e Outros. Um `ADMIN` de desenvolvimento é criado ou atualizado somente quando `SEED_ADMIN_NAME`, `SEED_ADMIN_EMAIL` e `SEED_ADMIN_PASSWORD` estão preenchidos no ambiente; nenhuma credencial é versionada.
-
-## Funcionalidades ainda planejadas
-
-Endpoints de solicitações e categorias, regras de negócio do atendimento, upload de imagens e integração mobile permanecem para etapas futuras. Não há CRUD de solicitações nesta versão.
+O banco local, o Prisma Client gerado e credenciais de ambiente não são versionados. Imagens aparecem como relação vazia nos detalhes até a etapa futura de upload.

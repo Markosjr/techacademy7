@@ -1,6 +1,6 @@
 # Requisitos do FixFlow
 
-Este documento define o comportamento do MVP acadêmico. A autenticação e autorização estão implementadas na API, mas ainda não estão integradas ao mobile; os demais fluxos funcionais continuam planejados. A persona de referência está em `docs/persona.md`; as regras e a modelagem estão em `docs/regras-negocio.md` e `docs/modelagem-dados.md`.
+Este documento define o comportamento do MVP acadêmico. Autenticação, autorização e o domínio de solicitações estão implementados na API, mas ainda não estão integrados ao mobile. Upload de imagens permanece planejado. A persona de referência está em `docs/persona.md`; as regras e a modelagem estão em `docs/regras-negocio.md` e `docs/modelagem-dados.md`.
 
 ## Requisitos Funcionais
 
@@ -32,7 +32,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Registrar uma solicitação de manutenção com título, descrição, categoria ativa e prioridade inicial `BAIXA`, `MEDIA` ou `ALTA` informada pelo usuário, associada a quem a abriu.
 
-**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** Dados válidos geram uma solicitação persistida com identificador e estado inicial `ABERTA`; campos obrigatórios inválidos são rejeitados.
 
@@ -48,7 +48,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Listar as solicitações abertas pelo usuário autenticado, com identificação e status.
 
-**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** O usuário vê suas solicitações e não recebe solicitações de outros usuários nessa consulta.
 
@@ -56,7 +56,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Consultar dados, status atual e histórico de alterações relevantes de uma solicitação acessível ao ator.
 
-**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** A tela mostra os dados registrados e o status atual; alterações de status ficam consultáveis no histórico.
 
@@ -64,7 +64,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Permitir ao solicitante editar título, descrição, categoria e prioridade inicial da própria solicitação enquanto estiver `ABERTA`.
 
-**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** Uma alteração autorizada é persistida; alterações de solicitação alheia ou em estado não permitido são recusadas.
 
@@ -72,7 +72,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Oferecer ao solicitante uma ação controlada de cancelamento da própria solicitação em `ABERTA` ou `EM_ANALISE`, preservando o registro para histórico.
 
-**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** Solicitação cancelável passa a `CANCELADA` e permanece consultável; cancelamento não permitido é recusado.
 
@@ -80,7 +80,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Permitir ao administrador listar e abrir solicitações de todos os usuários.
 
-**Ator(es):** Administrador. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Administrador. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** O administrador consulta solicitações independentemente do solicitante; usuário comum não acessa essa visão.
 
@@ -88,7 +88,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Permitir ao administrador atualizar o estado da solicitação e registrar a alteração no histórico.
 
-**Ator(es):** Administrador. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Administrador. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** Mudança autorizada atualiza o status e gera registro de histórico; mudança proibida é rejeitada.
 
@@ -96,7 +96,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Permitir ao administrador ajustar prioridade em solicitações não finalizadas, sem modificar autoria ou dados originais do solicitante.
 
-**Ator(es):** Administrador. **Prioridade:** Importante. **Status:** Planejado.
+**Ator(es):** Administrador. **Prioridade:** Importante. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** Ajustes autorizados persistem e aparecem nos detalhes; campos fora da permissão não são alterados.
 
@@ -104,7 +104,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Aplicar controle de acesso entre perfis `USER` e `ADMIN` nas operações e consultas.
 
-**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** RBAC base implementado na API; permissões de solicitações planejadas.
+**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** A API impede acesso não autenticado e recusa operações administrativas para `USER`, mesmo se chamadas diretamente.
 
@@ -112,7 +112,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 **Descrição:** Usar os estados planejados `ABERTA`, `EM_ANALISE`, `EM_ANDAMENTO`, `CONCLUIDA` e `CANCELADA` para acompanhamento, respeitando as transições de `docs/regras-negocio.md`.
 
-**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Planejado.
+**Ator(es):** Usuário comum e administrador. **Prioridade:** Essencial. **Status:** Implementado no backend; integração mobile pendente.
 
 **Critério de aceite:** Cada solicitação mostra um desses estados, correspondente ao dado persistido; transições não previstas são recusadas.
 
@@ -126,7 +126,7 @@ Este documento define o comportamento do MVP acadêmico. A autenticação e auto
 
 ## CRUD acadêmico principal
 
-O recurso principal é a **solicitação de manutenção**: **Create** corresponde a RF004; **Read**, a RF006, RF007 e RF010; **Update**, a RF008, RF011 e RF012. Para **Delete**, o MVP planeja o cancelamento controlado de RF009, com preservação do histórico, em vez de exclusão física pelo usuário, conforme `docs/regras-negocio.md`. A equivalência acadêmica ainda deverá ser validada na avaliação do projeto. Não há CRUD implementado nesta etapa.
+O recurso principal é a **solicitação de manutenção**: **Create** corresponde a RF004; **Read**, a RF006, RF007 e RF010; **Update**, a RF008, RF011 e RF012. Para **Delete**, a API implementa o cancelamento controlado de RF009, com preservação do registro e histórico, em vez de exclusão física, conforme `docs/regras-negocio.md`. O CRUD está implementado no backend e no SQLite; a integração pelo aplicativo ainda está pendente. A equivalência acadêmica do cancelamento lógico deverá ser validada na avaliação do projeto.
 
 ## Requisitos Não Funcionais
 

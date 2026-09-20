@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Representar o modelo **conceitual e planejado** do MVP FixFlow. O diagrama deriva de `docs/modelagem-dados.md`; ainda não representa tabelas ou migrações implementadas.
+Representar o modelo implementado do MVP FixFlow. O diagrama deriva de `docs/modelagem-dados.md` e corresponde ao schema Prisma e às migrations SQLite atuais.
 
 ## Entidades
 
@@ -71,7 +71,7 @@ erDiagram
     }
 ```
 
-As opções de nulidade e os valores de `role`, `priority` e `status` estão detalhados em `docs/modelagem-dados.md`.
+As opções de nulidade e os valores de `role`, `priority` e `status` estão detalhados em `docs/modelagem-dados.md`. Em `STATUS_HISTORY`, `previousStatus` é nulo somente no evento inicial de criação.
 
 ## Cardinalidades
 
