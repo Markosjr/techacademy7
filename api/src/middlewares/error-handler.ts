@@ -1,5 +1,6 @@
 import type { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
+import multer from 'multer';
 
 import { AppError } from '../errors/app-error';
 
@@ -27,6 +28,15 @@ export const errorHandler: ErrorRequestHandler = (
         message: issue.message,
       })),
     });
+    return;
+  }
+
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      response.status(413).json({ message: 'A imagem deve possuir no máximo 5 MB.' });
+      return;
+    }
+    response.status(400).json({ message: error.code === 'LIMIT_UNEXPECTED_FILE' ? 'Envie uma única imagem no campo image.' : 'Não foi possível processar a imagem.' });
     return;
   }
 

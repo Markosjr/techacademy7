@@ -245,3 +245,17 @@ A criação e a edição realizadas pela interface passaram por Axios, Express, 
 ### Escopo e próxima etapa
 
 Upload e exibição de imagens continuam ausentes. A próxima etapa planejada é implementar Multer e validar extensão, MIME, conteúdo, tamanho e colisão de nomes.
+## 20/09/2026 — Upload e validação de imagens
+
+- Adicionados `multer`, `@types/multer` e `expo-image-picker` compatível com Expo 57.
+- Criado upload unitário no campo `image` em `POST /api/requests/:id/images`, exclusivo do `USER` proprietário e de solicitações `ABERTA`.
+- Permitidos JPEG/JPG, PNG e WEBP até 5 MB, com extensão, MIME e assinatura binária validados.
+- Nomes finais usam `crypto.randomUUID()`; caminhos relativos e metadados são persistidos em `RequestImage`.
+- Arquivos são servidos por `/uploads/requests`, e falhas posteriores à gravação removem o arquivo recém-criado.
+- O mobile seleciona na galeria, mostra prévia, permite remover, envia com FormData/Axios e exibe imagens no detalhe.
+- Falha de upload após criação preserva a solicitação e oferece nova tentativa enquanto `ABERTA`.
+- Testes backend A–O e mobile P–W concluídos com sucesso, além de lint, TypeScript, typecheck e build.
+
+### Próxima etapa prevista
+
+Diagramas UML, testes finais e revisão integral da rubrica, mediante autorização.

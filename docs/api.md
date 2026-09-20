@@ -2,7 +2,7 @@
 
 ## Objetivo e tecnologias
 
-A API REST liga o aplicativo FixFlow à persistência SQLite. Usa Node.js, Express, TypeScript, Prisma, Zod, JWT, bcrypt e CORS. O upload com Multer ainda não faz parte desta versão.
+A API REST liga o aplicativo FixFlow à persistência SQLite. Usa Node.js, Express, TypeScript, Prisma, Zod, JWT, bcrypt, CORS e Multer.
 
 Todas as rotas protegidas recebem `Authorization: Bearer <token>`. Entradas inválidas retornam 400; ausência ou invalidade de autenticação, 401; perfil sem permissão, 403; recurso não encontrado, 404; e violação do estado atual, 409. IDs são UUIDs, conforme o schema Prisma.
 
@@ -23,6 +23,15 @@ Todas as rotas protegidas recebem `Authorization: Bearer <token>`. Entradas inv�
 | `PATCH` | `/api/requests/:id/cancel` | `USER` proprietário | Cancelar logicamente pedido em `ABERTA` ou `EM_ANALISE`. |
 | `PATCH` | `/api/requests/:id/status` | `ADMIN` | Executar a próxima transição administrativa permitida. |
 | `PATCH` | `/api/requests/:id/priority` | `ADMIN` | Ajustar prioridade de pedido não finalizado. |
+| `POST` | `/api/requests/:id/images` | `USER` proprietário | Enviar uma imagem para pedido próprio em `ABERTA`. |
+
+## Upload e serviço de imagens
+
+`POST /api/requests/:id/images` recebe `multipart/form-data`, com um arquivo no campo `image`. A API aceita `.jpg`, `.jpeg`, `.png` e `.webp`, exige MIME correspondente, confere a assinatura binária e limita cada arquivo a 5 MB. O `USER` precisa ser o criador do pedido e o estado deve ser `ABERTA`; violações de estado retornam 409. Arquivo ausente ou inválido retorna 400, excesso de tamanho retorna 413 e falta de autenticação retorna 401.
+
+O Multer grava em `api/uploads/requests` com `crypto.randomUUID()` e extensão validada. Após a gravação, a API persiste `filename`, `originalName`, `mimeType`, `size`, `path`, `requestId` e `createdAt` em `RequestImage`; se a validação de conteúdo ou o banco falhar, remove o arquivo recém-criado. A resposta 201 e `GET /api/requests/:id` fornecem `url` relativa, sem caminho local absoluto.
+
+Arquivos aceitos são servidos exclusivamente em `/uploads/requests/:filename`. O cliente deriva a origem a partir de `EXPO_PUBLIC_API_URL`, sem endereço fixo no código.
 
 `GET /api/requests` aceita os filtros opcionais `status`, `priority` e `categoryId`. Os filtros respeitam o mesmo escopo: um `USER` nunca amplia a consulta além das próprias solicitações. A consulta por ID de uma solicitação alheia retorna 404 para não revelar sua existência.
 
@@ -45,7 +54,7 @@ Cada criação, cancelamento ou transição administrativa gera `StatusHistory` 
 
 O schema está em `api/prisma/schema.prisma`, as migrations em `api/prisma/migrations/` e o acesso compartilhado em `api/src/database/prisma.ts`. `npm run db:seed` mantém as cinco categorias iniciais e configura um `ADMIN` opcional somente quando as três variáveis de seed são fornecidas.
 
-O banco local, o Prisma Client gerado e credenciais de ambiente não são versionados. Imagens aparecem como relação vazia nos detalhes até a etapa futura de upload.
+O banco local, o Prisma Client gerado, credenciais de ambiente e imagens reais não são versionados. Apenas `api/uploads/requests/.gitkeep` mantém a estrutura da pasta.
 
 ## Consumo pelo mobile
 

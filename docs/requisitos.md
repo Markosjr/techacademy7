@@ -44,6 +44,8 @@ Este documento define o comportamento do MVP acadêmico. Autenticação, autoriz
 
 **Critério de aceite:** Uma imagem válida enviada pelo aplicativo fica associada à solicitação e aparece nos seus detalhes.
 
+**Status:** Implementado. A galeria permite seleção opcional, prévia, remoção e envio posterior ao cadastro; o detalhe permite novo envio enquanto `ABERTA`.
+
 ### RF006 - Consultar próprias solicitações
 
 **Descrição:** Listar as solicitações abertas pelo usuário autenticado, com identificação e status.
@@ -119,6 +121,8 @@ Este documento define o comportamento do MVP acadêmico. Autenticação, autoriz
 ### RF015 - Receber e validar imagem na API
 
 **Descrição:** Receber imagem com Multer, aceitar JPEG/JPG, PNG ou WEBP até 5 MB por arquivo, verificar MIME/type e extensão e atribuir nome de armazenamento sem colisão.
+
+**Status:** Implementado. A API também confere assinatura binária, usa UUID, persiste `RequestImage`, remove arquivo em falha posterior e serve a URL relativa.
 
 **Ator(es):** Usuário comum; API. **Prioridade:** Importante. **Status:** Planejado.
 

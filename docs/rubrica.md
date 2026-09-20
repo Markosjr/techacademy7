@@ -25,17 +25,18 @@ Este documento separa o que foi encontrado no repositório do que está previsto
 | Usabilidade, compatibilidade e segurança | Parcialmente atendida | Há loading, empty, retry, validação, mensagens de API, bloqueio de envio duplicado, labels e proteção de rotas. Expo Web foi testado; Android/iOS ainda requerem validação em dispositivo. |
 | Contextualização e evolução do produto | Parcial: documentação ampliada | Problema, persona e versões 0.1 a 0.8 em `docs/evolucao.md`; validação com cliente real ainda não realizada. |
 | DER | Documentado e refletido no schema | Mermaid em `docs/der.md` coerente com as cinco entidades, relações e chaves implementadas no schema Prisma e na migration. |
-| Requisitos funcionais e não funcionais | Documentados; implementação planejada | `docs/requisitos.md` contém RF001–RF015 e RNF001–RNF012, escopo e critérios verificáveis. |
+| Requisitos funcionais e não funcionais | Documentados e atualizados | `docs/requisitos.md` contém RF001–RF015 e RNF001–RNF012; RF005 e RF015 estão implementados ponta a ponta. |
 | Dois diagramas de casos de uso | Planejado | Produzir dois diagramas coerentes com atores e requisitos aprovados. |
 | Dois diagramas de atividades | Planejado | Produzir dois diagramas para fluxos principais aprovados. |
 | Dois diagramas de sequência | Planejado | Produzir dois diagramas refletindo app, API e persistência reais. |
-| Upload de imagens com Multer | Planejado | Implementar envio do app, recepção pela API e associação à solicitação. |
+| Upload de imagens com Multer | Atendido | Expo Image Picker → FormData/Axios → Multer → arquivo local → Prisma/SQLite → detalhe mobile. |
+| Validação de imagens: extensão, tamanho e colisão | Atendido | Extensão e MIME restritos, assinatura binária conferida, limite de 5 MB e filename com UUID; testes A–O aprovados. |
 | Validação de extensão, tamanho e colisão de nomes | Planejado | Definir limites e formatos aceitos; aplicar validação no servidor e estratégia de nome único; cobrir rejeições. |
 | Usuário ADMIN e usuário comum | Implementado na API e interface | `USER` acessa pedidos próprios, criação, edição e cancelamento; `ADMIN` vê autoria e visão global, altera prioridade e avança status. |
 | Conexão com persona/cliente | Documentada com persona fictícia | `docs/persona.md` relaciona dores a respostas planejadas; `docs/requisitos.md` mapeia requisitos a necessidades. Falta validação com cliente real. |
 
 ## Tecnologias alvo
 
-Mobile: React Native, Expo e TypeScript. API: Node.js, Express e TypeScript. Persistência: Prisma e SQLite. Comunicação: Axios. Autenticação: JWT. Imagens: Multer. Mobile, API, persistência, autenticação e CRUD estão integrados; Multer e imagens permanecem planejados.
+Mobile: React Native, Expo e TypeScript. API: Node.js, Express e TypeScript. Persistência: Prisma e SQLite. Comunicação: Axios. Autenticação: JWT. Imagens: Expo Image Picker e Multer. Todos esses elementos estão integrados no fluxo atual.
 
 Atualize esta tabela somente após verificar o artefato correspondente. Registre decisões e evidências em `docs/evolucao.md` durante as próximas etapas autorizadas.

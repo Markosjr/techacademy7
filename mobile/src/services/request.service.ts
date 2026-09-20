@@ -1,5 +1,6 @@
 import { api } from './api';
-import type { MaintenanceRequest, Priority, RequestListItem, RequestPayload, RequestStatus } from '@/types/domain';
+import type { MaintenanceRequest, Priority, RequestImage, RequestListItem, RequestPayload, RequestStatus } from '@/types/domain';
+import type { SelectedRequestImage } from '@/components/RequestImagePicker';
 
 export async function listRequests(filters?: { status?: RequestStatus; priority?: Priority }) {
   const { data } = await api.get<RequestListItem[]>('/requests', { params: filters });
@@ -28,4 +29,16 @@ export async function changeRequestStatus(id: string, status: RequestStatus, not
 export async function changeRequestPriority(id: string, priority: Priority) {
   const { data } = await api.patch<{ request: MaintenanceRequest }>(`/requests/${id}/priority`, { priority });
   return data.request;
+}
+
+export async function uploadRequestImage(id: string, selected: SelectedRequestImage) {
+  const form = new FormData();
+  if (typeof window !== 'undefined') {
+    const blob = await fetch(selected.uri).then(response => response.blob());
+    form.append('image', blob, selected.fileName);
+  } else {
+    form.append('image', { uri: selected.uri, name: selected.fileName, type: selected.mimeType } as unknown as Blob);
+  }
+  const { data } = await api.post<{ image: RequestImage }>(`/requests/${id}/images`, form);
+  return data.image;
 }

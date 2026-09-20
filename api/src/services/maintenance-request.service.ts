@@ -46,6 +46,7 @@ const requestDetailSelect = {
       originalName: true,
       mimeType: true,
       size: true,
+      path: true,
       createdAt: true,
     },
   },
@@ -94,7 +95,10 @@ async function findAccessibleRequest(id: string, authUser: AuthUser) {
     throw new AppError('Solicitação não encontrada.', 404);
   }
 
-  return request;
+  return {
+    ...request,
+    images: request.images.map(({ path, ...image }) => ({ ...image, url: `/${path}` })),
+  };
 }
 
 async function requireOwnedRequest(id: string, userId: string) {

@@ -11,7 +11,7 @@ As regras abaixo definem o comportamento do MVP. As regras de autenticação e d
 | Criar e consultar solicitações | Próprias | Consultar todas |
 | Editar dados do pedido | Próprios, somente em `ABERTA` | Não altera dados originais do solicitante |
 | Cancelar pedido | Próprios, em `ABERTA` ou `EM_ANALISE` | Não previsto no MVP |
-| Anexar imagem | Próprios, somente em `ABERTA` | Não previsto no MVP |
+| Anexar imagem | Próprios, somente em `ABERTA` | Somente visualização |
 | Alterar status operacional | Não | Sim, nas transições permitidas |
 | Ajustar prioridade | Não após a criação | Sim, em pedido não finalizado |
 
@@ -45,7 +45,7 @@ As regras abaixo definem o comportamento do MVP. As regras de autenticação e d
 
 **Aplicação:** Comparar `MaintenanceRequest.createdById` com o usuário autenticado no backend antes de listar, detalhar, editar, cancelar ou anexar imagem como `USER`.
 
-**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF005, RF006, RF007, RF008, RF009, RF010, RF013. **Status:** Implementada na API para consulta, edição e cancelamento; imagens permanecem pendentes.
+**Atores envolvidos:** USER, ADMIN. **Requisitos relacionados:** RF005, RF006, RF007, RF008, RF009, RF010, RF013. **Status:** Implementada, incluindo upload de imagem pelo proprietário e visualização pelo ADMIN.
 
 ### RN005 - Criação padronizada
 
@@ -101,9 +101,9 @@ As regras abaixo definem o comportamento do MVP. As regras de autenticação e d
 
 **Descrição:** `USER` pode anexar imagem à própria solicitação somente em `ABERTA`. São previstos JPEG/JPG, PNG e WEBP, até 5 MB por arquivo. O nome armazenado deve ser gerado com identificador único, sem reutilizar diretamente o nome enviado.
 
-**Aplicação:** O backend deverá conferir MIME/type, extensão e conteúdo legível como imagem de modo coerente, rejeitar arquivo inválido sem persisti-lo e salvar caminho e metadados apenas para imagem aceita. Um pedido pode ter várias imagens, cada uma vinculada a um único pedido.
+**Aplicação:** O backend confere MIME/type, extensão e assinatura binária, rejeita arquivo inválido sem persistência e salva caminho relativo e metadados apenas para imagem aceita. Um pedido pode ter várias imagens, adicionadas uma por requisição.
 
-**Atores envolvidos:** USER. **Requisitos relacionados:** RF005, RF015. **Status:** Planejada.
+**Atores envolvidos:** USER. **Requisitos relacionados:** RF005, RF015. **Status:** Implementada e verificada ponta a ponta.
 
 ### RN011 - Histórico de mudança de status
 

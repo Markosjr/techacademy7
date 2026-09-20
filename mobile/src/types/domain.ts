@@ -30,9 +30,11 @@ export type MaintenanceRequest = RequestListItem & {
   canceledAt: string | null;
   completedAt: string | null;
   createdBy: Pick<User, 'id' | 'name' | 'email'>;
-  images: { id: string; filename: string; originalName: string; mimeType: string; size: number; createdAt: string }[];
+  images: RequestImage[];
   history: StatusHistory[];
 };
+
+export type RequestImage = { id: string; filename: string; originalName: string; mimeType: string; size: number; url: string; createdAt: string };
 
 export type RequestPayload = {
   title: string;

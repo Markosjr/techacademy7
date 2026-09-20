@@ -24,7 +24,9 @@ Este plano organiza entregas possíveis, sem autorizar sua implementação antec
 | 4. Persistência — concluída | Prisma 7.10.0, SQLite, schema das cinco entidades, migration inicial e Prisma Client centralizado. | Schema validado, migration aplicada, tabelas e consulta do client verificadas. |
 | 5. Autenticação e autorização da API — concluída | Cadastro público `USER`, login, JWT, `/auth/me`, RBAC e `ADMIN` opcional por seed; categorias iniciais idempotentes. | Cenários 201, 400, 401, 403 e 409 verificados; `ADMIN` autorizado no servidor. Integração mobile ainda prevista. |
 | 6. Solicitações ponta a ponta — concluída | Autenticação e CRUD acadêmico no mobile, API e SQLite, com propriedade, autorização, cancelamento lógico, prioridade, máquina de estados e histórico. | Fluxos `USER` e `ADMIN` verificados pelo Expo Web; criação e edição pelo app confirmadas diretamente no SQLite. |
-| 7. Imagens | Upload com Multer e vínculo com solicitações; validação de extensão, tamanho e nomes sem colisão. | Upload válido funciona; arquivos inválidos e excessivos são rejeitados; nomes não sobrescrevem arquivos. |
+| 7. Imagens | **Concluída.** Upload com Multer e vínculo com solicitações; validação de extensão, MIME, conteúdo, tamanho e nomes sem colisão. | Testes backend A–O e mobile P–W aprovados. |
+
+Próxima etapa autorizável: diagramas UML, testes finais e revisão integral da rubrica.
 | 8. Experiência e segurança | Refinar navegação, feedback, erros, acessibilidade, compatibilidade e proteção de dados. | Fluxos principais verificados nos ambientes escolhidos e falhas tratadas. |
 | 9. Documentação acadêmica | Dois diagramas de casos de uso, dois de atividades e dois de sequência; revisar DER, requisitos e evolução. | Diagramas e documentos refletem o comportamento efetivamente entregue. |
 
