@@ -9,9 +9,10 @@ type AppButtonProps = {
   onPress: () => void;
   disabled?: boolean;
   loading?: boolean;
+  variant?: 'primary' | 'secondary' | 'danger';
 };
 
-export function AppButton({ title, onPress, disabled = false, loading = false }: AppButtonProps) {
+export function AppButton({ title, onPress, disabled = false, loading = false, variant = 'primary' }: AppButtonProps) {
   const isDisabled = disabled || loading;
 
   return (
@@ -23,13 +24,15 @@ export function AppButton({ title, onPress, disabled = false, loading = false }:
       onPress={onPress}
       style={({ pressed }) => [
         styles.button,
+        variant === 'secondary' && styles.secondary,
+        variant === 'danger' && styles.danger,
         isDisabled && styles.disabled,
         pressed && !isDisabled && styles.pressed,
       ]}>
       {loading ? (
-        <ActivityIndicator color={colors.onPrimary} />
+        <ActivityIndicator color={variant === 'secondary' ? colors.primary : colors.onPrimary} />
       ) : (
-        <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title, variant === 'secondary' && styles.secondaryTitle]}>{title}</Text>
       )}
     </Pressable>
   );

@@ -16,5 +16,9 @@ if (!jwtSecret || jwtSecret.length < 32) {
 }
 
 const jwtExpiresIn = (process.env.JWT_EXPIRES_IN ?? '1h') as SignOptions['expiresIn'];
+const corsOrigins = (process.env.CORS_ORIGIN ?? 'http://localhost:8081,http://localhost:8088')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
-export const env = { port, jwtSecret, jwtExpiresIn };
+export const env = { port, jwtSecret, jwtExpiresIn, corsOrigins };

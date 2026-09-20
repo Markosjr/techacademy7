@@ -2,7 +2,7 @@
 
 As regras abaixo definem o comportamento do MVP. As regras de autenticação e do domínio de solicitações estão implementadas na API; a regra de imagens permanece planejada. Esconder ações no aplicativo não substitui autorização no servidor. `USER` representa o solicitante comum; `ADMIN`, o responsável pelo gerenciamento.
 
-## Perfis e permissões planejadas
+## Perfis e permissões
 
 | Operação | USER | ADMIN |
 | --- | --- | --- |

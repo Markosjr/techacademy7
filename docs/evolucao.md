@@ -221,3 +221,27 @@ Foram aprovados os cenários A–P definidos para autenticação, propriedade, e
 ### Escopo e próxima etapa
 
 Não foram alterados o mobile nem o fluxo de imagens. A próxima etapa é integrar React Native à autenticação e ao CRUD da API usando Axios; upload com Multer permanece para incremento posterior.
+
+---
+
+## Versão 1.0 - Integração mobile com API e CRUD
+
+### Entregas
+
+- Expo Router organiza grupos públicos e autenticados, com proteção baseada na sessão atual.
+- React Context oferece cadastro, login, restauração via `/auth/me` e logout. O JWT usa SecureStore em Android/iOS e localStorage no desenvolvimento web.
+- Axios centraliza `EXPO_PUBLIC_API_URL` e o Bearer token; serviços separados implementam autenticação, categorias e solicitações.
+- O aplicativo oferece home por perfil, listagem com filtros, criação, detalhes, edição e cancelamento para `USER`.
+- A mesma listagem e os mesmos detalhes permitem ao `ADMIN` consultar todos os pedidos, identificar o criador, ajustar prioridade e executar apenas a próxima transição válida.
+- Componentes reutilizáveis apresentam formulário, cards, badges, seletores e estados de loading, vazio e erro. Datas e rótulos amigáveis ficam centralizados.
+- A API recebeu CORS configurável por `CORS_ORIGIN`, necessário para o consumo pelo Expo Web, sem mudança nas regras de negócio.
+
+### Testes
+
+No Expo Web foram verificados os cenários A–T: redirecionamento sem sessão, cadastro, login, restauração após recarga, logout, criação, listagem, detalhes, edição, cancelamento, ausência de controles administrativos para `USER`, identificação de `ADMIN`, visão global, criador, três avanços de status, histórico, prioridade e ausência de ações em estado terminal. Credenciais inválidas exibiram mensagem da API sem quebrar a aplicação.
+
+A criação e a edição realizadas pela interface passaram por Axios, Express, `MaintenanceRequestService`, Prisma e SQLite. Consultas diretas ao banco confirmaram o registro inicial e depois o novo título e a prioridade alterada. TypeScript e lint do mobile e typecheck e build da API foram aprovados.
+
+### Escopo e próxima etapa
+
+Upload e exibição de imagens continuam ausentes. A próxima etapa planejada é implementar Multer e validar extensão, MIME, conteúdo, tamanho e colisão de nomes.

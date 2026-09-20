@@ -24,17 +24,17 @@ Esta é uma **persona acadêmica representativa**, criada para orientar decisõe
 
 ## Necessidades
 
-Marina precisa de um canal único para abrir solicitações, consultar as próprias ocorrências, ver estado e histórico e anexar uma imagem quando útil. O cadastro e a identificação do usuário deverão associar cada solicitação a quem a abriu. Essas capacidades estão **planejadas** em `docs/requisitos.md`; a tela mobile atual é apenas uma demonstração da fundação visual.
+Marina precisa de um canal único para abrir solicitações, consultar as próprias ocorrências, ver estado e histórico e anexar uma imagem quando útil. Cadastro, identificação, solicitações e acompanhamento já estão integrados no mobile; imagens permanecem planejadas em `docs/requisitos.md`.
 
 ## Jornada resumida
 
 Identifica um problema → abre o FixFlow → registra a solicitação → acompanha o status → visualiza a conclusão.
 
-Essa jornada descreve o **fluxo pretendido**, ainda não disponível na aplicação.
+Essa jornada está disponível na aplicação, exceto pelo anexo de imagens.
 
 ## Relação persona x solução
 
-| Dor ou necessidade | Resposta planejada no FixFlow |
+| Dor ou necessidade | Resposta do FixFlow |
 | --- | --- |
 | Avisos dispersos e sem histórico | Registro padronizado e consulta das próprias solicitações. |
 | Dúvida sobre recebimento e andamento | Estado visível e histórico de mudanças relevantes. |
@@ -43,4 +43,4 @@ Essa jornada descreve o **fluxo pretendido**, ainda não disponível na aplicaç
 
 ## Perfil administrativo
 
-O **usuário administrador**, responsável pelo gerenciamento do atendimento, precisa consultar todas as solicitações, analisar ocorrências, ajustar a prioridade quando permitido, alterar o status e acompanhar o fluxo de atendimento. O perfil administrativo e suas permissões serão implementados em etapas futuras. Esta descrição é um papel do sistema, não uma segunda pessoa entrevistada.
+O **usuário administrador**, responsável pelo gerenciamento do atendimento, consulta todas as solicitações, identifica o criador, ajusta a prioridade quando permitido, altera o status e acompanha o fluxo. Esta descrição é um papel do sistema, não uma segunda pessoa entrevistada.

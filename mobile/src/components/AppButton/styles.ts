@@ -15,6 +15,12 @@ export const styles = StyleSheet.create({
   disabled: {
     backgroundColor: colors.disabled,
   },
+  secondary: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+  danger: { backgroundColor: colors.danger },
   pressed: {
     opacity: 0.85,
   },
@@ -23,4 +29,5 @@ export const styles = StyleSheet.create({
     fontSize: typography.button.fontSize,
     fontWeight: typography.button.fontWeight,
   },
+  secondaryTitle: { color: colors.primary },
 });

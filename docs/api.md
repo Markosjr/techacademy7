@@ -2,7 +2,7 @@
 
 ## Objetivo e tecnologias
 
-A API REST liga os futuros clientes do FixFlow à persistência SQLite. Usa Node.js, Express, TypeScript, Prisma, Zod, JWT e bcrypt. A integração React Native e o upload com Multer ainda não fazem parte desta versão.
+A API REST liga o aplicativo FixFlow à persistência SQLite. Usa Node.js, Express, TypeScript, Prisma, Zod, JWT, bcrypt e CORS. O upload com Multer ainda não faz parte desta versão.
 
 Todas as rotas protegidas recebem `Authorization: Bearer <token>`. Entradas inválidas retornam 400; ausência ou invalidade de autenticação, 401; perfil sem permissão, 403; recurso não encontrado, 404; e violação do estado atual, 409. IDs são UUIDs, conforme o schema Prisma.
 
@@ -46,3 +46,9 @@ Cada criação, cancelamento ou transição administrativa gera `StatusHistory` 
 O schema está em `api/prisma/schema.prisma`, as migrations em `api/prisma/migrations/` e o acesso compartilhado em `api/src/database/prisma.ts`. `npm run db:seed` mantém as cinco categorias iniciais e configura um `ADMIN` opcional somente quando as três variáveis de seed são fornecidas.
 
 O banco local, o Prisma Client gerado e credenciais de ambiente não são versionados. Imagens aparecem como relação vazia nos detalhes até a etapa futura de upload.
+
+## Consumo pelo mobile
+
+O aplicativo centraliza o endereço em `EXPO_PUBLIC_API_URL` e envia o JWT por Axios. Para Expo Web no mesmo computador, pode-se usar `http://localhost:3333/api`; em dispositivo físico, deve-se usar o IP local alcançável do computador, pois `localhost` apontaria para o próprio celular. Nenhum IP pessoal fica no código versionado.
+
+No navegador, a API aceita origens configuradas em `CORS_ORIGIN`, separadas por vírgula. O valor de desenvolvimento documentado contempla as portas 8081 e 8088. A proteção real continua no Express por autenticação, propriedade e RBAC, independentemente dos controles visuais do aplicativo.
