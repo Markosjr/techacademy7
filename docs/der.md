@@ -1,10 +1,3 @@
-# Diagrama Entidade Relacionamento
-
-## Objetivo
-
-Representar o modelo implementado do MVP FixFlow. O diagrama deriva de `docs/modelagem-dados.md` e corresponde ao schema Prisma e às migrations SQLite atuais.
-
-## Entidades
 
 - **USER:** conta, credencial protegida e perfil `USER` ou `ADMIN`.
 - **CATEGORY:** classificação padronizada das solicitações.
@@ -12,7 +5,6 @@ Representar o modelo implementado do MVP FixFlow. O diagrama deriva de `docs/mod
 - **REQUEST_IMAGE:** metadados de imagem vinculada ao pedido.
 - **STATUS_HISTORY:** registro de cada transição de status e seu responsável.
 
-## Diagrama
 
 ```mermaid
 erDiagram
